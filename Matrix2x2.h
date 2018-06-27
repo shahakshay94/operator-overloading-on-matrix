@@ -78,7 +78,8 @@ public:
 
     friend Matrix2x2 operator/(const Matrix2x2& lhs, const Matrix2x2& rhs);
     friend Matrix2x2 operator/(const Matrix2x2& lhs, const int& val);
-    friend Matrix2x2 operator/(const int& val, const Matrix2x2& rhs);
+
+    friend Matrix2x2 operator/(const int &val, Matrix2x2 &rhs);
 
     friend bool operator==(const Matrix2x2& lhs, const Matrix2x2& rhs);
     friend bool operator==(const Matrix2x2& lhs, const int& val);

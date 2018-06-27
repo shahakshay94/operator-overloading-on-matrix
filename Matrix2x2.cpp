@@ -22,11 +22,11 @@ Matrix2x2 Matrix2x2::inverse() {
 }
 
 bool Matrix2x2::isSymmetric() {
-    return false;
+    return this->p2 == this->p3;
 }
 
-bool Matrix2x2::isSimilar(Matrix2x2 x2) {
-    return false;
+bool Matrix2x2::isSimilar(Matrix2x2 M2) {
+    return this->determinant() == M2.determinant();
 }
 
 double Matrix2x2::determinant() {
@@ -77,13 +77,7 @@ Matrix2x2 &Matrix2x2::operator/=(const Matrix2x2 &rhs) {
     return <#initializer#>;
 }
 
-Matrix2x2 &Matrix2x2::operator++() {
-    return <#initializer#>;
-}
 
-Matrix2x2 &Matrix2x2::operator--() {
-    return <#initializer#>;
-}
 
 vector<double> Matrix2x2::operator()(const int &s) {
     return vector<double>();
@@ -101,6 +95,15 @@ const double &Matrix2x2::operator[](const int &s) const {
     return <#initializer#>;
 }*/
 
+Matrix2x2 &Matrix2x2::operator++() {
+    return *this = *this + 1;
+}
+
+Matrix2x2 &Matrix2x2::operator--() {
+    return *this = *this - 1;
+}
+
+
 Matrix2x2 Matrix2x2::operator+() const {
     return * this;
 }
@@ -110,15 +113,19 @@ Matrix2x2 Matrix2x2::operator-() const {
 }
 
 Matrix2x2 Matrix2x2::operator++(int) {
-    return Matrix2x2();
+    Matrix2x2 temp = *this;
+    *this = *this + 1;
+    return temp;
 }
 
 Matrix2x2 Matrix2x2::operator--(int) {
-    return Matrix2x2();
+    Matrix2x2 temp = *this;
+    *this = *this - 1;
+    return temp;
 }
 
 Matrix2x2 operator+(const Matrix2x2 &lhs, const Matrix2x2 &rhs) {
-    return Matrix2x2();
+    return Matrix2x2(lhs.p1 + rhs.p1, lhs.p2 + rhs.p2, lhs.p3 + rhs.p3, lhs.p4 + rhs.p4);
 }
 
 Matrix2x2 operator+(const Matrix2x2 &lhs, const int &val) {
@@ -130,7 +137,7 @@ Matrix2x2 operator+(const int &val, const Matrix2x2 &rhs) {
 }
 
 Matrix2x2 operator-(const Matrix2x2 &lhs, const Matrix2x2 &rhs) {
-    return Matrix2x2();
+    return Matrix2x2(lhs.p1 - rhs.p1, lhs.p2 - rhs.p2, lhs.p3 - rhs.p3, lhs.p4 - rhs.p4);
 }
 
 Matrix2x2 operator-(const Matrix2x2 &lhs, const int &val) {
@@ -150,11 +157,11 @@ Matrix2x2 operator*(const Matrix2x2 &lhs, const Matrix2x2 &rhs) {
 }
 
 Matrix2x2 operator*(const Matrix2x2 &lhs, const int &val) {
-    return Matrix2x2();
+    return Matrix2x2(lhs.p1 * val, lhs.p2 * val, lhs.p3 * val, lhs.p4 * val);
 }
 
 Matrix2x2 operator*(const int &val, const Matrix2x2 &rhs) {
-    return Matrix2x2();
+    return operator*(rhs, val);
 }
 
 Matrix2x2 operator/(const Matrix2x2 &lhs, const Matrix2x2 &rhs) {
@@ -162,11 +169,15 @@ Matrix2x2 operator/(const Matrix2x2 &lhs, const Matrix2x2 &rhs) {
 }
 
 Matrix2x2 operator/(const Matrix2x2 &lhs, const int &val) {
-    return Matrix2x2();
+    if (val != 0) {
+        return operator*(lhs, 1 / val);
+    } else {
+        throw overflow_error("Divide by zero error.");
+    }
 }
 
-Matrix2x2 operator/(const int &val, const Matrix2x2 &rhs) {
-    return Matrix2x2();
+Matrix2x2 operator/(const int &val, Matrix2x2 &rhs) {
+    return operator*(val, rhs.inverse());
 }
 
 bool operator==(const Matrix2x2 &lhs, const Matrix2x2 &rhs) {
@@ -269,4 +280,26 @@ Matrix2x2::Matrix2x2(const Matrix2x2 &rhs) {
     this->p2=rhs.p2;
     this->p3=rhs.p3;
     this->p4=rhs.p4;
+}
+
+vector<double> Matrix2x2::operator()(const int &s) {
+    return vector<double>();
+}
+
+double &Matrix2x2::operator[](const int &val) {
+    if (val == 0) {
+        return this->p1;
+    } else if (val == 1) {
+        return this->p2;
+    } else if (val == 2) {
+        return this->p3;
+    } else if (val == 3) {
+        return this->p4;
+    } else {
+        throw invalid_argument("index out of bound");
+    }
+}
+
+double Matrix2x2::operator()() {
+    return this->determinant();
 };
