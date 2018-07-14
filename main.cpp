@@ -1,36 +1,36 @@
+/**
+ * @author Akshay Shah
+ * @date 14 July 2018
+ * Assignment 3 of COMP 5421 Summer '18
+ * This is the driver or main class to test some of the mathematical
+ * operations performed on 2-d Matrix
+ * This class uses <code>asserts</code> to test the operator overloading.
+ *
+ */
 #include <iostream>
 #include <iomanip>
 #include <cassert>
 #include <vector>
 #include "Matrix2x2.h"
-
-void printEigenvalues(const vector<double> &vector, int i);
-
 using namespace std;
 
-void printEigenvalues(const vector<double> &inputVector, int inputValue) {
-    if (inputVector[1] > 0)
-        cout << "root["<< inputValue <<"]: " << inputVector[0] << " +" << inputVector[1] << "i" << endl;
-    else
-        cout << "root[" << inputValue << "]: " << inputVector[0] << " " << inputVector[1] << "i" << endl;
-
-}
+void printEigenvalues(const vector<double> &vector, int i);
 
 int main() {
     Matrix2x2 m1(2, -1, 1, 2); // test constructor
     cout << "m1\n" << m1 << endl;    // operator<<, the output operator
 
     Matrix2x2 m1Inv = m1.inverse();    // inverse
-    cout << "m1.invers()\n" << m1Inv << endl;
+    cout << "m1.inverse()\n" << m1Inv << endl;
 
-    Matrix2x2 m1Inv_times_m1 = m1Inv*m1;
-    cout << "m1 * m1.invers()\n" << m1Inv_times_m1 << endl;
+    Matrix2x2 m1Inv_times_m1 = m1Inv * m1;
+    cout << "m1 * m1.inverse()\n" << m1Inv_times_m1 << endl;
 
-    // the inverse of any 2x2 mutiplied by the 2x2 itself must give the identity 2x2
+    // the inverse of any 2x2 multiplied by the 2x2 itself must give the identity 2x2
     assert(m1Inv_times_m1 == Matrix2x2(1, 0, 0, 1));
 
     Matrix2x2 m1_times_m1Inv = m1 * m1Inv;
-    cout << "m1.invers() * m1\n" << m1_times_m1Inv << endl;
+    cout << "m1.inverse() * m1\n" << m1_times_m1Inv << endl;
     // any 2x2 mutiplied by its inverse must give the identity 2x2
     assert(m1_times_m1Inv == Matrix2x2(1, 0, 0, 1));
 
@@ -47,7 +47,7 @@ int main() {
     printEigenvalues(root1, 1);    // root 1: 2 +1i
 
     // test function object, operator()(int)
-    std::vector<double > root2(m1(2)); // real = 2.0, imag = -1
+    std::vector<double> root2(m1(2)); // real = 2.0, imag = -1
     assert(std::abs(root2[0] - 2) < 1.e-6);
     assert(std::abs(root2[1] - (-1)) < 1.e-6);
     // implement this free function to print a given eigenvalue
@@ -100,7 +100,7 @@ int main() {
 
     assert(-m1 + 1 == -m8);
     assert(2 * m1 == m8 + m1 + 1);
-    assert(m1 * m1 == m1 *(1 + m8));
+    assert(m1 * m1 == m1 * (1 + m8));
     cout << "m8 is " << (m8.isSymmetric() ? "" : "not") << " symmetric\n";
     Matrix2x2 m9(123, 6, 6, 4567.89);
     cout << "m9\n" << m9 << endl;
@@ -118,7 +118,7 @@ int main() {
     cout << "m9 is " << (m9.isSimilar(m1) ? "" : "not") << " similar to m1\n";
 
     // subscripts (const version)
-    const Matrix2x2 cm9{ m9 };
+    const Matrix2x2 cm9{m9};
     cout << "cm9\n" << cm9 << endl;
 
     m9 += m9; // m9 = m9 + m9;
@@ -175,4 +175,17 @@ int main() {
     //--------------------------------------------------
 
     cout << "Test completed successfully!" << endl;
+}
+
+/**
+ * prints the eigen values of the matrix
+ * @param inputVector
+ * @param inputValue
+ */
+void printEigenvalues(const vector<double> &inputVector, int inputValue) {
+    if (inputVector[1] > 0)
+        cout << "root[" << inputValue << "]: " << inputVector[0] << " +" << inputVector[1] << "i" << endl;
+    else
+        cout << "root[" << inputValue << "]: " << inputVector[0] << " " << inputVector[1] << "i" << endl;
+
 }
