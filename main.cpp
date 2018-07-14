@@ -14,7 +14,7 @@
 #include "Matrix2x2.h"
 using namespace std;
 
-void printEigenvalues(const vector<double> &vector, int i);
+void printEigenvalues(const vector<double> &inputVector, int inputValue);
 
 int main() {
     Matrix2x2 m1(2, -1, 1, 2); // test constructor
@@ -40,16 +40,16 @@ int main() {
     cout << endl;
 
     // test function object, operator()(int)
-    std::vector<double> root1 = m1(1); // real = 2.0, imag = 1
-    assert(std::abs(root1[0] - 2) < 1.e-6);
-    assert(std::abs(root1[1] - 1) < 1.e-6);
+    vector<double> root1 = m1(1); // real = 2.0, imag = 1
+    assert(abs(root1[0] - 2) < 1.e-6);
+    assert(abs(root1[1] - 1) < 1.e-6);
     // implement this free function to print a given eigenvalue (see output)
     printEigenvalues(root1, 1);    // root 1: 2 +1i
 
     // test function object, operator()(int)
-    std::vector<double> root2(m1(2)); // real = 2.0, imag = -1
-    assert(std::abs(root2[0] - 2) < 1.e-6);
-    assert(std::abs(root2[1] - (-1)) < 1.e-6);
+    vector<double> root2(m1(2)); // real = 2.0, imag = -1
+    assert(abs(root2[0] - 2) < 1.e-6);
+    assert(abs(root2[1] - (-1)) < 1.e-6);
     // implement this free function to print a given eigenvalue
     printEigenvalues(root2, 2);   // root 2: 2 -1i
 
